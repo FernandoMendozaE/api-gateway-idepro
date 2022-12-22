@@ -6,7 +6,7 @@ import authRoutes from './routes/auth.routes'
 import projectsRoutes from './routes/projects.routes'
 import userRoutes from './routes/user.routes'
 import clasificadorRoutes from './routes/clasificador.routes'
-import pagocreditoRoutes from './routes/pagocredito.routes'
+import pagocreditoRoutes from './routes/transaccion.routes'
 
 const app = express()
 

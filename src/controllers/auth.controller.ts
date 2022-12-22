@@ -5,7 +5,7 @@ import config from '../util/config'
 import constantUtil from '../util/constant.util'
 import { UserModel } from '../model/User'
 import { Buffer } from 'buffer'
-import { SingInBodySchema, SingUpBodySchema } from '../middlewares/auth.schema'
+import { SingInBodySchema, SingUpBodySchema } from '../schemas/auth.schema'
 
 export const login = (req: Request, res: Response) => {
   try {
@@ -97,7 +97,13 @@ export const signIn = async (
     if (!matchPassword)
       return res.status(401).json({ message: 'Password incorrect' })
 
-    const token = jwt.sign({ userId: userFound._id }, config.JWT_SECRET, {
+    const payload = {
+      usuario: userFound.id_usuario,
+      rol: userFound.id_rol,
+      date: new Date()
+    }
+
+    const token = jwt.sign(payload, config.JWT_SECRET, {
       expiresIn: config.JWT_TIME_EXPIRY
     })
 
