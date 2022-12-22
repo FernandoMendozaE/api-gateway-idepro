@@ -5,6 +5,7 @@ import config from '../util/config'
 import constantUtil from '../util/constant.util'
 import { UserModel } from '../model/User'
 import { Buffer } from 'buffer'
+import { SingInBodySchema, SingUpBodySchema } from '../middlewares/auth.schema'
 
 export const login = (req: Request, res: Response) => {
   try {
@@ -16,9 +17,21 @@ export const login = (req: Request, res: Response) => {
 }
 
 // * Registro de usuario
-export const signUp = async (req: Request<unknown, unknown, any, unknown>, res: Response) => {
+export const signUp = async (
+  req: Request<unknown, unknown, any, unknown>,
+  res: Response
+) => {
   try {
-    const { usuario, password, nombre, descripcion, correo, add_user, estado, id_rol } = req.body
+    const {
+      usuario,
+      password,
+      nombre,
+      descripcion,
+      correo,
+      add_user,
+      estado,
+      id_rol
+    } = req.body
     // const newUser = new UserModel({
     //   username,
     //   firstname,
@@ -35,7 +48,8 @@ export const signUp = async (req: Request<unknown, unknown, any, unknown>, res: 
     })
 
     var fecha = new Date()
-    var hora = fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getSeconds()
+    var hora =
+      fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getSeconds()
     const passwordHash = await bcrypt.hash(password, config.BCRYPT_SALT_ROUNDS)
 
     const user = await UserModel.create({
@@ -69,26 +83,46 @@ export const signUp = async (req: Request<unknown, unknown, any, unknown>, res: 
 }
 
 // * Login de usuario
-export const signIn = async (req: Request<unknown, unknown, unknown, unknown>, res: Response) => {
-  // try {
-  //   const userFound = await UserModel.findOne({
-  //     $or: [{ email: req.body.email }, { username: req.body.username }]
-  //   }).populate('roles') // ? populate es para traer los roles de un usuario en especifico y no solo el id de ese rol
-  //   if (!userFound) return res.status(401).json({ message: 'User not found' })
-  //   const matchPassword = await userFound.comparePassword(req.body.password)
-  //   if (!matchPassword) return res.status(401).json({ message: 'Password incorrect' })
-  //   const token = jwt.sign({ userId: userFound._id }, JWT_SECRET, {
-  //     expiresIn: '20d'
-  //   })
-  //   return res.status(200).json({ token })
-  // } catch (error) {
-  //   if (error instanceof Error) {
-  //     return res.status(500).json({ message: error.message })
-  //   }
-  // }
+export const signIn = async (
+  req: Request<unknown, unknown, SingInBodySchema, unknown>,
+  res: Response
+) => {
+  try {
+    const { usuario, password } = req.body
+    const userFound = (await UserModel.findByPk(usuario)) as any
+    if (!userFound) return res.status(401).json({ message: 'User not found' })
+
+    const matchPassword = await bcrypt.compare(password, userFound.password)
+
+    if (!matchPassword)
+      return res.status(401).json({ message: 'Password incorrect' })
+
+    const token = jwt.sign({ userId: userFound._id }, config.JWT_SECRET, {
+      expiresIn: config.JWT_TIME_EXPIRY
+    })
+
+    return res.status(200).json({
+      mensaje: constantUtil.MENSAJE_CORRECTO,
+      status: constantUtil.STATUS_OK,
+      data: {
+        access_token: token,
+        // usuario: user.usuario,
+        fecha: new Date().toLocaleString('en-US'),
+        tiempo_expiracion: config.JWT_TIME_EXPIRY,
+        version: config.AUTH_VERSION
+      }
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
 }
 
-export const validateUser = async (req: Request<unknown, unknown, any, unknown>, res: Response) => {
+export const validateUser = async (
+  req: Request<unknown, unknown, any, unknown>,
+  res: Response
+) => {
   let authheader = req.headers.authorization as string
   console.log(req.headers)
 
@@ -100,7 +134,9 @@ export const validateUser = async (req: Request<unknown, unknown, any, unknown>,
     })
   }
 
-  var auth = Buffer.from(authheader.split(' ')[1], 'base64').toString().split(':')
+  var auth = Buffer.from(authheader.split(' ')[1], 'base64')
+    .toString()
+    .split(':')
   var user = auth[0]
   var pass = auth[1]
 

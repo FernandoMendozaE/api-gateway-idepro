@@ -1,5 +1,5 @@
 const PRODUCCION = 'https://froddi-ws.idepro.org/'
-const LABO = 'http:///localhost:8080/'
+const LABO = 'http:///10.0.90.203:8080/'
 
 export const pagoCreditoEndPoint = {
   ENDPOINT_CONSULTA_DEUDA: LABO + 'bcp/consulta',
