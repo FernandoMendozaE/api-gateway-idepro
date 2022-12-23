@@ -3,18 +3,14 @@ import { z } from 'zod'
 export const AuthSingUpSchema = z.object({
   body: z
     .object({
-      username: z.string().min(3).max(20),
-      firstname: z.string().nonempty().min(3).max(50),
-      lastname: z.string().nonempty().min(3).max(50),
-      email: z
-        .string()
-        .nonempty('Email is required')
-        .email('Writte a correct email'),
-      password: z
-        .string()
-        .nonempty('Password is required')
-        .min(6, 'Password too short'),
-      roles: z.enum(['user', 'moderator', 'admin']).array().min(1)
+      id_usuario: z.string().min(3).max(5),
+      password: z.string().min(6, 'Password too short'),
+      nombre: z.string().min(3).max(50),
+      descripcion: z.string(),
+      correo: z.string().email('Writte a correct email'),
+      add_user: z.string().min(3).max(5),
+      id_rol: z.number().positive(),
+      estado: z.boolean()
     })
     .strict()
 })
