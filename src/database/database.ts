@@ -16,7 +16,7 @@ export const sequelize = new Sequelize(
 // * Connection database
 ;(async () => {
   try {
-    // await sequelize.authenticate()
+    await sequelize.authenticate()
     // await sequelize.sync({ force: true })
     // const data = await sequelize.query(
     //   'select * from idrolrecurso rol inner join idclasificador cla on cla.id_correlativo in (rol.id_rol, rol.id_recurso) and cla.id_prefijo = 6 where rol.id_rol = 4'

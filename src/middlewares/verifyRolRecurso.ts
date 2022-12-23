@@ -7,25 +7,31 @@ export const isRole = async (
   res: Response,
   next: NextFunction
 ) => {
-  // * valida el rol
-  const data = await sequelize.query(
-    `select rol.id_usuario, rol.id_rol, clas.id_correlativo, clas.ruta_prefijo from idrolrecurso rol inner join idclasificador clas on clas.id_correlativo in (rol.id_rol, rol.id_recurso) and clas.id_prefijo = 6 where rol.id_rol = ${req.rolId}`
-  )
-  const rolFound = data[0]
-  if (rolFound.length === 0)
-    return res
-      .status(403)
-      .json({ message: 'No se encontro ningun rol para este recurso' })
+  try {
+    // * valida el rol
+    const data = await sequelize.query(
+      `select rol.id_usuario, rol.id_rol, clas.id_correlativo, clas.ruta_prefijo from idrolrecurso rol inner join idclasificador clas on clas.id_correlativo in (rol.id_rol, rol.id_recurso) and clas.id_prefijo = 6 where rol.id_rol = ${req.rolId}`
+    )
+    const rolFound = data[0]
+    if (rolFound.length === 0)
+      return res
+        .status(403)
+        .json({ message: 'No se encontro ningun rol para este recurso' })
 
-  // * valida ruta acceso rol
-  let findEnpoint = rolFound.find((parm: any) => {
-    return parm.ruta_prefijo === req.originalUrl
-  })
+    // * valida ruta acceso rol
+    let findEnpoint = rolFound.find((parm: any) => {
+      return parm.ruta_prefijo === req.originalUrl
+    })
 
-  if (!findEnpoint)
-    return res
-      .status(403)
-      .json({ message: 'No se encontro ningun ruta para el rol' })
+    if (!findEnpoint)
+      return res
+        .status(403)
+        .json({ message: 'No se encontro ningun ruta para el rol' })
 
-  next()
+    next()
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
 }

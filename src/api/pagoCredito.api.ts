@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { pagoCreditoEndPoint } from '../util/pagoCredito.endPoints'
+import { pagoCreditoEndPoint } from '../util/endPoints.util'
 
 export const postConsultaDeuda = async (credito: string) =>
   await axios.post(pagoCreditoEndPoint.ENDPOINT_CONSULTA_DEUDA, credito)
