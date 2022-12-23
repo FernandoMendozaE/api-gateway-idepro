@@ -1,22 +1,17 @@
 import { verifyToken } from '../middlewares/authJwt'
-import { isRole } from '../middlewares/verifyRolRecurso'
 import { Router } from 'express'
 const router = Router()
 
-import {
-  getUserList,
-  getUser,
-  createUser,
-  deleteUser,
-  updateUser,
-  validateUser
-} from '../controllers/user.controller'
+import { deleteUser, getUser, getUsers, updateUser } from '../controllers/user.controller'
+import { schemaValition } from '../middlewares/schemaValidator.middleware'
+import { GetOrDeleteUserSchema, UpdateUserSchema } from '../schemas/user.Schema'
 
-router.get('/', [verifyToken, isRole], getUserList)
-router.get('/:id', verifyToken, getUser)
-router.post('/', verifyToken, createUser)
-router.delete('/:id', verifyToken, deleteUser)
-router.put('/', verifyToken, updateUser)
-router.post('/login', validateUser)
+router.get('/', [verifyToken], getUsers)
+
+router.get('/:id', schemaValition(GetOrDeleteUserSchema), [verifyToken], getUser)
+
+router.put('/:id', schemaValition(UpdateUserSchema), [verifyToken], updateUser)
+
+router.delete('/:id', schemaValition(UpdateUserSchema), [verifyToken], deleteUser)
 
 export default router

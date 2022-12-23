@@ -1,10 +1,6 @@
 import { Request, Response } from 'express'
 import constantUtil from '../util/constant.util'
-import {
-  postConsultaDeuda,
-  postPagoDeuda,
-  postReversionDeuda
-} from '../api/pagoCredito.api'
+import { postConsultaDeuda, postPagoDeuda, postReversionDeuda } from '../api/pagoCredito.api'
 
 export const consultaDeuda = async (req: Request, res: Response) => {
   try {

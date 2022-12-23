@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }))
 //* Router
 app.use('/api/auth', authRoutes)
 app.use(projectsRoutes)
-app.use('/api/user', userRoutes)
+app.use('/api/users', userRoutes)
 app.use('/api/transaccion', pagocreditoRoutes)
 app.use(clasificadorRoutes)
 
