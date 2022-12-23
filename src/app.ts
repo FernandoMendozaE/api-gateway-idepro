@@ -7,6 +7,7 @@ import projectsRoutes from './routes/projects.routes'
 import userRoutes from './routes/user.routes'
 import clasificadorRoutes from './routes/clasificador.routes'
 import pagocreditoRoutes from './routes/transaccion.routes'
+import carteradigitalRoutes from './routes/carpeta-digital.routes'
 
 const app = express()
 
@@ -19,9 +20,13 @@ app.use(express.urlencoded({ extended: false }))
 
 //* Router
 app.use('/api/auth', authRoutes)
-app.use(projectsRoutes)
 app.use('/api/users', userRoutes)
-app.use('/api/transaccion', pagocreditoRoutes)
+
+app.use(projectsRoutes)
 app.use(clasificadorRoutes)
+
+// ? API
+app.use('/api/transaccion', pagocreditoRoutes)
+app.use('/api/carteradigital', carteradigitalRoutes)
 
 export default app // ! exportando app

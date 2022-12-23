@@ -14,5 +14,6 @@ export default {
   AUTH_PASSWORD: process.env.AUTH_PASSWORD || 'ws1d3pr0',
   JWT_TIME_EXPIRY: process.env.JWT_TIME_EXPIRY || '24h',
   AUTH_VERSION: process.env.AUTH_VERSION || '2.0.0',
-  ENPOINT_TRANSACCION: process.env.ENPOINT_TRANSACCION || 'http:///localhost:8080/'
+  ENPOINT_TRANSACCION: process.env.ENPOINT_TRANSACCION || 'http:///localhost:8080/',
+  ENPOINT_CARTERA: process.env.ENPOINT_CARTERA || 'http:///localhost:8080/'
 }
