@@ -6,7 +6,7 @@ import config from '../util/config'
 import { NextFunction, Request, Response } from 'express'
 import constantUtil from '../util/constant.util'
 interface JwtPayload {
-  userId: string
+  rolId: string
 }
 
 export const verifyToken = async (
@@ -15,14 +15,13 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.header('authorization')
-
+    const token = req.header('Authorization')
     if (!token) return res.status(403).json({ message: 'No token provided' }) // ? validar cabecera del token
-
-    const decoded: any = jwt.verify(token, config.JWT_SECRET) as JwtPayload
-
-    // console.log('decoded', decoded)
-    req.params = decoded.rol
+    const decoded: any = jwt.verify(
+      token.split(' ')[1],
+      config.JWT_SECRET
+    ) as JwtPayload
+    req.rolId = decoded.rol
 
     next()
   } catch (error) {

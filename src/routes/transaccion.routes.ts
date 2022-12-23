@@ -7,7 +7,7 @@ import {
   pagoDeuda,
   reversionDeuda
 } from '../controllers/transaccion.controller'
-import { isRole } from '../middlewares/verifySignup'
+import { isRole } from '../middlewares/verifyRolRecurso'
 import { schemaValition } from '../middlewares/schemaValidator.middleware'
 import {
   GetConsultaCuota,
@@ -18,7 +18,7 @@ import {
 router.post(
   '/consulta',
   schemaValition(GetConsultaCuota),
-  [verifyToken, isRole('admin')],
+  [verifyToken, isRole],
   consultaDeuda
 )
 router.post('/pago', schemaValition(GetPago), [verifyToken], pagoDeuda)
