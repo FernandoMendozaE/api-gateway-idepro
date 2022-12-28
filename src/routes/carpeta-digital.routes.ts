@@ -3,29 +3,20 @@ import { Router } from 'express'
 const router = Router()
 
 import { isRole } from '../middlewares/verifyRolRecurso'
-import {
-  getAgencia,
-  getCliente,
-  getCredito,
-  getCreditoAsignado,
-  getGestor,
-  getHistorialPago,
-  getLineaCredito,
-  getPerfil,
-  getZona
-} from '../controllers/cartera-digital.controller'
-// import { schemaValition } from '../middlewares/schemaValidator.middleware'
-// import { GetConsultaCuota, GetPago, GetReversion } from '../schemas/transaccion.schema'
+import { getCarteraDigital } from '../controllers/cartera-digital.controller'
 
-router.get('/agencia', [verifyToken, isRole], getAgencia)
-router.get('/zona', [verifyToken, isRole], getZona)
-router.get('/gestor', [verifyToken, isRole], getGestor)
-router.get('/perfil', [verifyToken, isRole], getPerfil)
-router.get('/credito', [verifyToken, isRole], getCredito)
-router.get('/lineaCredito', [verifyToken, isRole], getLineaCredito)
-router.get('/creditoAsignado', [verifyToken, isRole], getCreditoAsignado)
-router.get('historialPago', [verifyToken, isRole], getHistorialPago)
-router.get('/cliente', [verifyToken, isRole], getCliente)
-// router.get('/', [verifyToken, isRole], get)
+router.get('/agencia', [verifyToken, isRole], getCarteraDigital)
+router.get('/zona', [verifyToken, isRole], getCarteraDigital)
+router.get('/gestor', [verifyToken, isRole], getCarteraDigital)
+router.get('/perfil', [verifyToken, isRole], getCarteraDigital)
+router.get('/credito', [verifyToken, isRole], getCarteraDigital)
+router.get('/lineaCredito', [verifyToken, isRole], getCarteraDigital)
+router.get('/creditoAsignado', [verifyToken, isRole], getCarteraDigital)
+router.get('/historialPago', [verifyToken, isRole], getCarteraDigital)
+router.get('/cliente', [verifyToken, isRole], getCarteraDigital)
+router.get('/fiador', [verifyToken, isRole], getCarteraDigital)
+router.get('/fiadorAsignado', [verifyToken, isRole], getCarteraDigital)
+router.get('/garantia', [verifyToken, isRole], getCarteraDigital)
+router.get('/garantiaAsignado', [verifyToken, isRole], getCarteraDigital)
 
 export default router

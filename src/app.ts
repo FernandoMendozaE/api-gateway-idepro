@@ -3,11 +3,11 @@ import config from './util/config'
 import morgan from 'morgan'
 import cors from 'cors'
 import authRoutes from './routes/auth.routes'
-import projectsRoutes from './routes/projects.routes'
 import userRoutes from './routes/user.routes'
 import clasificadorRoutes from './routes/clasificador.routes'
 import pagocreditoRoutes from './routes/transaccion.routes'
 import carteradigitalRoutes from './routes/carpeta-digital.routes'
+import segurosRoutes from './routes/seguros.routes'
 
 const app = express()
 
@@ -22,11 +22,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 
-app.use(projectsRoutes)
 app.use(clasificadorRoutes)
 
 // ? API
 app.use('/api/transaccion', pagocreditoRoutes)
 app.use('/api/carteradigital', carteradigitalRoutes)
+app.use('/api/seguros', segurosRoutes)
 
 export default app // ! exportando app

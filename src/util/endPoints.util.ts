@@ -6,14 +6,27 @@ export const pagoCreditoEndPoint = {
   ENDPOINT_REVERSION_DEUDA: config.ENPOINT_TRANSACCION + 'bcp/reversion'
 }
 
-export const carteraDigitalEndPoint = {
-  ENDPOINT_AGENDA: config.ENPOINT_CARTERA + 'carteraDigital/agencia',
-  ENDPOINT_ZONA: config.ENPOINT_CARTERA + 'carteraDigital/zona',
-  ENDPOINT_GESTOR: config.ENPOINT_CARTERA + 'carteraDigital/gestor',
-  ENDPOINT_PERFIL: config.ENPOINT_CARTERA + 'carteraDigital/perfil',
-  ENDPOINT_CREDITO: config.ENPOINT_CARTERA + 'carteraDigital/credito',
-  ENDPOINT_LINEA_CREDITO: config.ENPOINT_CARTERA + 'carteraDigital/lineaCredito',
-  ENDPOINT_CREDITO_ASIGNADO: config.ENPOINT_CARTERA + 'carteraDigital/creditoAsignado',
-  ENDPOINT_HISTORIAL_PAGO: config.ENPOINT_CARTERA + 'carteraDigital/historialPago',
-  ENDPOINT_CLIENTE: config.ENPOINT_CARTERA + 'carteraDigital/cliente'
+export const carteraDigitalURL: any = {
+  '/api/carteradigital/agencia': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/zona': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/gestor': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/perfil': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/credito': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/lineaCredito': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/creditoAsignado': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/historialPago': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/cliente': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/fiador': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/fiadorAsignado': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/garantia': config.ENPOINT_CARTERA + 'carteraDigital',
+  '/api/carteradigital/garantiaAsignado': config.ENPOINT_CARTERA + 'carteraDigital'
+}
+
+export const segurosURL: any = {
+  '/api/seguros/participantePrestamo': config.ENPOINT_SEGUROS + 'seguros',
+  '/api/seguros/cliente': config.ENPOINT_SEGUROS + 'seguros',
+  '/api/seguros/datosPrestamo': config.ENPOINT_SEGUROS + 'seguros',
+  '/api/seguros/datosOperacion': config.ENPOINT_SEGUROS + 'seguros',
+  '/api/seguros/datosOperacionPorNumeroDocumento': config.ENPOINT_SEGUROS + 'seguros',
+  '/api/seguros/miVidaguroPorFechas': config.ENPOINT_SEGUROS + 'seguros'
 }

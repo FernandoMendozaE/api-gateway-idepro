@@ -12,8 +12,9 @@ export default {
   BCRYPT_SALT_ROUNDS: Number(process.env.BCRYPT_SALT_ROUNDS) || 10,
   AUTH_USERNAME: process.env.AUTH_USERNAME || 'wsIdepro',
   AUTH_PASSWORD: process.env.AUTH_PASSWORD || 'ws1d3pr0',
-  JWT_TIME_EXPIRY: process.env.JWT_TIME_EXPIRY || '24h',
+  JWT_TIME_EXPIRY: process.env.JWT_TIME_EXPIRY || '365d',
   AUTH_VERSION: process.env.AUTH_VERSION || '2.0.0',
-  ENPOINT_TRANSACCION: process.env.ENPOINT_TRANSACCION || 'http:///localhost:8080/',
-  ENPOINT_CARTERA: process.env.ENPOINT_CARTERA || 'http:///localhost:8080/'
+  ENPOINT_TRANSACCION: process.env.ENPOINT_TRANSACCION || 'http://localhost:8080/',
+  ENPOINT_CARTERA: process.env.ENPOINT_CARTERA || 'http://localhost:8080/',
+  ENPOINT_SEGUROS: process.env.ENPOINT_SEGUROS || 'http://localhost:8080/'
 }

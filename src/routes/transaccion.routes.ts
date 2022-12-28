@@ -8,7 +8,7 @@ import { schemaValition } from '../middlewares/schemaValidator.middleware'
 import { GetConsultaCuota, GetPago, GetReversion } from '../schemas/transaccion.schema'
 
 router.post('/consulta', schemaValition(GetConsultaCuota), [verifyToken, isRole], consultaDeuda)
-router.post('/pago', schemaValition(GetPago), [verifyToken], pagoDeuda)
-router.post('/reversion', schemaValition(GetReversion), [verifyToken], reversionDeuda)
+router.post('/pago', schemaValition(GetPago), [verifyToken, isRole], pagoDeuda)
+router.post('/reversion', schemaValition(GetReversion), [verifyToken, isRole], reversionDeuda)
 
 export default router
