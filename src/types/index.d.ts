@@ -5,6 +5,7 @@ declare global {
     interface Request {
       rolId: integer
       rutaRecurso: string
+      queryRecurso: object | any
     }
   }
 }

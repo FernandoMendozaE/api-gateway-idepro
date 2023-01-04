@@ -1,57 +1,89 @@
 import { Request, Response } from 'express'
-import constantUtil from '../util/constant.util'
+import messageUtil from '../util/message.util'
 import { postConsultaDeuda, postPagoDeuda, postReversionDeuda } from '../api/pagoCredito.api'
+import { saveLog } from './log.controller'
+
+export interface typeResponse {
+  mensaje: string
+  estado: string
+  data: any
+}
 
 export const consultaDeuda = async (req: Request, res: Response) => {
   try {
     const responseConsultaDeuda = await postConsultaDeuda(req.body)
-    return res.json({
-      mensaje: constantUtil.MENSAJE_CORRECTO,
-      estado: constantUtil.STATUS_OK,
+
+    const dataResponse: typeResponse = {
+      mensaje: messageUtil.MENSAJE_CORRECTO,
+      estado: messageUtil.STATUS_OK,
       data: responseConsultaDeuda.data.data
-    })
-  } catch (e) {
-    console.error(e)
-    res.json({
-      mensaje: constantUtil.MENSAJE_ERROR,
-      estado: constantUtil.STATUS_NOK,
-      data: {}
-    })
+    }
+    await saveLog(req, dataResponse)
+
+    return res.status(200).json(dataResponse)
+  } catch (error) {
+    if (error instanceof Error) {
+      const dataError: typeResponse = {
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error
+        }
+      }
+      await saveLog(req, dataError)
+      res.status(500).json(dataError)
+    }
   }
 }
 
 export const pagoDeuda = async (req: Request, res: Response) => {
   try {
     const responsePagoDeuda = await postPagoDeuda(req.body)
-    return res.json({
-      mensaje: constantUtil.MENSAJE_CORRECTO,
-      estado: constantUtil.STATUS_OK,
+
+    const dataResponse: typeResponse = {
+      mensaje: messageUtil.MENSAJE_CORRECTO,
+      estado: messageUtil.STATUS_OK,
       data: responsePagoDeuda.data.data
-    })
+    }
+    await saveLog(req, dataResponse)
+
+    return res.status(200).json(dataResponse)
   } catch (error) {
-    console.error(error)
-    res.json({
-      mensaje: constantUtil.MENSAJE_ERROR,
-      estado: constantUtil.STATUS_NOK,
-      data: {}
-    })
+    if (error instanceof Error) {
+      const dataError: typeResponse = {
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error
+        }
+      }
+      await saveLog(req, dataError)
+      res.status(500).json(dataError)
+    }
   }
 }
 
 export const reversionDeuda = async (req: Request, res: Response) => {
   try {
     const responseReversionDeuda = await postReversionDeuda(req.body)
-    return res.json({
-      mensaje: constantUtil.MENSAJE_CORRECTO,
-      estado: constantUtil.STATUS_OK,
+
+    const dataResponse: typeResponse = {
+      mensaje: messageUtil.MENSAJE_CORRECTO,
+      estado: messageUtil.STATUS_OK,
       data: responseReversionDeuda.data.data
-    })
+    }
+    await saveLog(req, dataResponse)
+    return res.status(200).json(dataResponse)
   } catch (error) {
-    console.error(error)
-    res.json({
-      mensaje: constantUtil.MENSAJE_ERROR,
-      estado: constantUtil.STATUS_NOK,
-      data: {}
-    })
+    if (error instanceof Error) {
+      const dataError: typeResponse = {
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error
+        }
+      }
+      await saveLog(req, dataError)
+    }
   }
 }

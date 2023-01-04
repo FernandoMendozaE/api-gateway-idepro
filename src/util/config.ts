@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export default {
-  PORT: process.env.PORT || '5000',
+  PORT: process.env.PORT || '3000',
   POSTGRES_DATABASE: process.env.POSTGRES_DATABASE || 'projectsdb',
   POSTGRES_USER: process.env.POSTGRES_USER || 'root',
   POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'root',

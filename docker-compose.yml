@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres-db
+    restart: always
+    ports:
+      - '5435:5432'
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - '85:80'
+    depends_on:
+      - postgres
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: api-gateway
+    container_name: api-gateway
+    environment:
+      POSTGRES_DATABASE: root
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      JWT_SECRET: 1d3pr01fd
+      BCRYPT_SALT_ROUNDS: 10
+      AUTH_USERNAME: wsIdepro
+      AUTH_PASSWORD: ws1d3pr0
+      JWT_TIME_EXPIRY: 24h
+      AUTH_VERSION: 2.0.0
+      ENPOINT_TRANSACCION: https://services-labo.idepro.org/services-app-pagos/
+      ENPOINT_CARTERA: https://services-labo.idepro.org/service-app-cartera-digital/
+      ENPOINT_SEGUROS: https://services-labo.idepro.org/services-app-seguros/
+
+    restart: always
+    ports:
+      - '3001:3000'
+    links:
+      - postgres
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - '443:443'
+    volumes:
+      - ./backend-not-found.html://var/www/html/backend-not-found.html
+      - ./config-nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./config-nginx/certs:/etc/nginx/certs
+    depends_on:
+      - api

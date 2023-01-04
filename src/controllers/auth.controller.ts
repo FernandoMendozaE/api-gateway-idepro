@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import config from '../util/config'
-import constantUtil from '../util/constant.util'
+import messageUtil from '../util/message.util'
 import { UserModel } from '../model/User'
 import { SingInBodySchema, SingUpBodySchema } from '../schemas/auth.schema'
 
@@ -23,10 +23,25 @@ export const signUp = async (req: Request<unknown, unknown, SingUpBodySchema, un
       expiresIn: config.JWT_TIME_EXPIRY
     })
 
-    res.status(200).json({ token })
+    return res.status(200).json({
+      mensaje: messageUtil.MENSAJE_CORRECTO,
+      status: messageUtil.STATUS_OK,
+      data: {
+        access_token: token,
+        fecha: new Date().toLocaleString('en-US'),
+        tiempo_expiracion: config.JWT_TIME_EXPIRY,
+        version: config.AUTH_VERSION
+      }
+    })
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ message: error.message })
+      res.status(500).json({
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error.message
+        }
+      })
     }
   }
 }
@@ -53,11 +68,10 @@ export const signIn = async (req: Request<unknown, unknown, SingInBodySchema, un
     })
 
     return res.status(200).json({
-      mensaje: constantUtil.MENSAJE_CORRECTO,
-      status: constantUtil.STATUS_OK,
+      mensaje: messageUtil.MENSAJE_CORRECTO,
+      status: messageUtil.STATUS_OK,
       data: {
         access_token: token,
-        // usuario: user.usuario,
         fecha: new Date().toLocaleString('en-US'),
         tiempo_expiracion: config.JWT_TIME_EXPIRY,
         version: config.AUTH_VERSION
@@ -65,7 +79,13 @@ export const signIn = async (req: Request<unknown, unknown, SingInBodySchema, un
     })
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ message: error.message })
+      res.status(500).json({
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error.message
+        }
+      })
     }
   }
 }

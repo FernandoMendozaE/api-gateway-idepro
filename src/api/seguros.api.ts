@@ -1,3 +1,8 @@
 import axios from 'axios'
+import * as https from 'https'
 
-export const getAxiosSeguros = async (enpoint: string) => await axios.get(enpoint)
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false
+})
+
+export const getAxiosSeguros = async (enpoint: string) => await axios.get(enpoint, { httpsAgent })

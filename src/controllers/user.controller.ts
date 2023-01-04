@@ -1,29 +1,37 @@
 import { Request, Response } from 'express'
 import { UserModel } from '../model/User'
+import { RolesModel } from '../model/Roles'
 import { GetOrDeleteUserParamsType, UpdateUserBodyType, UpdateUserParamsType } from '../schemas/user.Schema'
-import constantUtil from '../util/constant.util'
+import messageUtil from '../util/message.util'
 import bcrypt from 'bcrypt'
 import config from '../util/config'
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await UserModel.findAll()
+    const rol = await RolesModel.findAll()
     if (users.length > 0) {
-      res.json({
-        mensaje: constantUtil.MENSAJE_CORRECTO,
-        estado: constantUtil.STATUS_OK,
+      res.status(200).json({
+        mensaje: messageUtil.MENSAJE_CORRECTO,
+        estado: messageUtil.STATUS_OK,
         data: users
       })
     } else {
-      res.json({
-        mensaje: constantUtil.MENSAJE_SIN_REGISTRO,
-        estado: constantUtil.STATUS_OK,
+      res.status(404).json({
+        mensaje: messageUtil.MENSAJE_SIN_REGISTRO,
+        estado: messageUtil.STATUS_OK,
         data: {}
       })
     }
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ message: error.message })
+      res.status(500).json({
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error.message
+        }
+      })
     }
   }
 }
@@ -34,20 +42,26 @@ export const getUser = async (req: Request<GetOrDeleteUserParamsType, unknown, u
     const user = await UserModel.findByPk(id)
     if (user) {
       res.status(200).json({
-        mensaje: constantUtil.MENSAJE_CORRECTO,
-        estado: constantUtil.STATUS_OK,
+        mensaje: messageUtil.MENSAJE_CORRECTO,
+        estado: messageUtil.STATUS_OK,
         data: user
       })
     } else {
       res.status(404).json({
-        mensaje: constantUtil.MENSAJE_SIN_REGISTRO,
-        estado: constantUtil.STATUS_OK,
+        mensaje: messageUtil.MENSAJE_SIN_REGISTRO,
+        estado: messageUtil.STATUS_OK,
         data: {}
       })
     }
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ message: error.message })
+      res.status(500).json({
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error.message
+        }
+      })
     }
   }
 }
@@ -63,21 +77,27 @@ export const updateUser = async (
       const passwordHash = password ? await bcrypt.hash(password, config.BCRYPT_SALT_ROUNDS) : null
       const data = passwordHash ? { ...req.body, password: passwordHash } : req.body
       await user.update(data)
-      res.json({
-        mensaje: constantUtil.MENSAJE_CORRECTO,
-        status: constantUtil.STATUS_OK,
+      res.status(200).json({
+        mensaje: messageUtil.MENSAJE_CORRECTO,
+        status: messageUtil.STATUS_OK,
         data: user
       })
     } else {
-      res.json({
-        mensaje: constantUtil.MENSAJE_SIN_REGISTRO,
-        status: constantUtil.STATUS_NOK,
+      res.status(404).json({
+        mensaje: messageUtil.MENSAJE_SIN_REGISTRO,
+        status: messageUtil.STATUS_NOK,
         data: {}
       })
     }
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ message: error.message })
+      res.status(500).json({
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error.message
+        }
+      })
     }
   }
 }
@@ -91,18 +111,24 @@ export const deleteUser = async (req: Request<UpdateUserParamsType, unknown, unk
     })
 
     if (count > 0) {
-      mensajeRespuesta = constantUtil.MENSAJE_CORRECTO
+      mensajeRespuesta = messageUtil.MENSAJE_CORRECTO
     } else {
-      mensajeRespuesta = constantUtil.MENSAJE_SIN_REGISTRO
+      mensajeRespuesta = messageUtil.MENSAJE_SIN_REGISTRO
     }
-    res.json({
+    res.status(200).json({
       mensaje: mensajeRespuesta,
-      estado: constantUtil.STATUS_OK,
+      estado: messageUtil.STATUS_OK,
       data: {}
     })
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ message: error.message })
+      res.status(500).json({
+        mensaje: messageUtil.MENSAJE_ERROR,
+        estado: messageUtil.STATUS_NOK,
+        data: {
+          error: error.message
+        }
+      })
     }
   }
 }
